@@ -1,39 +1,31 @@
 {
-    "compilerOptions": {
-        /* Basic Options */
-        "target": "es5",
-        "module": "commonjs",
-        "lib": ["ES2015.Core"],
-        "declaration": true,
-        "declarationMap": true,
-        "sourceMap": true,
-        "outDir": "lib",
-
-        /* Strict Type-Checking Options */
-        "strict": true,
-
-        /* Additional Checks */
-        "exactOptionalPropertyTypes": true,
-        "forceConsistentCasingInFileNames": true,
-        "isolatedModules": true,
-        "isolatedDeclarations": true,
-        "noFallthroughCasesInSwitch": true,
-        "noImplicitOverride": true,
-        "noImplicitReturns": true,
-        "noPropertyAccessFromIndexSignature": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-
-        /* Module Resolution Options */
-        "esModuleInterop": true,
-        "moduleResolution": "node",
-        "resolveJsonModule": true
-    },
-    "include": ["src"],
-    "exclude": [
-        "**/*.spec.ts",
-        "**/__fixtures__/*",
-        "**/__tests__/*",
-        "**/__snapshots__/*"
-    ]
+  "compilerOptions": {
+    "listFiles": true,
+    "module": "ES2022",
+    "target": "ES2022",
+    "moduleResolution": "Bundler",
+    "esModuleInterop": false,
+    "lib": ["ES2022", "DOM", "WebWorker"],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "outDir": "dist",
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "strict": true,
+    "sourceMap": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noImplicitAny": false,
+    "declaration": true,
+    "declarationDir": "dist",
+    "declarationMap": true
+  },
+  "include": [
+    "example",
+    "src/**/*",
+    "test",
+    "lib.es5.d.ts"
+  ]
 }

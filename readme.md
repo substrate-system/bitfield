@@ -2,9 +2,11 @@
 
 A simple bitfield, compliant with the BitTorrent spec.
 
-    npm install bitfield
+```sh
+npm i -S @substrate-system/bitfield
+```
 
-#### Example
+## Example
 
 ```js
 import Bitfield from "bitfield";
