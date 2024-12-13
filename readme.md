@@ -12,6 +12,10 @@ A simple bitfield, compliant with the BitTorrent spec.
 
 <!-- toc -->
 
+## fork
+
+This is a fork of [fb55/bitfield](https://github.com/fb55/bitfield).
+
 ## install
 
 ```sh
@@ -21,20 +25,20 @@ npm i -S @substrate-system/bitfield
 ## Example
 
 ```js
-import Bitfield from "bitfield";
+import Bitfield from "@substrate-system/bitfield";
 
-const field = new Bitfield(256); // Create a bitfield with 256 bits.
+const field = new Bitfield(256);  // Create a bitfield with 256 bits.
 
-field.set(128); // Set the 128th bit.
-field.set(128, true); // Same as above.
+field.set(128);  // Set the 128th bit.
+field.set(128, true);  // Same as above.
 
-field.get(128); // `true`
-field.get(200); // `false` (all values are initialised to `false`)
-field.get(1e3); // `false` (out-of-bounds is also false)
+field.get(128);  // `true`
+field.get(200);  // `false` (all values are initialised to `false`)
+field.get(1e3);  // `false` (out-of-bounds is also false)
 
-field.set(128, false); // Set the 128th bit to 0 again.
+field.set(128, false);  // Set the 128th bit to 0 again.
 
-field.buffer; // The buffer used by the bitfield.
+field.buffer;  // The buffer used by the bitfield.
 ```
 
 ## Class: BitField
