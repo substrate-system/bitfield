@@ -12,6 +12,26 @@ A simple bitfield, compliant with the BitTorrent spec.
 
 <!-- toc -->
 
+- [fork](#fork)
+- [install](#install)
+- [Example](#example)
+- [Class: BitField](#class-bitfield)
+  * [Constructors](#constructors)
+  * [Properties](#properties)
+  * [Methods](#methods)
+- [Constructors](#constructors-1)
+  * [constructor](#constructor)
+- [Properties](#properties-1)
+  * [buffer](#buffer)
+- [Methods](#methods-1)
+  * [forEach](#foreach)
+  * [get](#get)
+  * [set](#set)
+  * [setAll](#setall)
+- [License](#license)
+
+<!-- tocstop -->
+
 ## fork
 
 This is a fork of [fb55/bitfield](https://github.com/fb55/bitfield).
