@@ -122,7 +122,9 @@ Loop through the bits in the bitfield.
 
 ### get
 
-▸ **get**(`i`: number): boolean
+```js
+get (i:number):boolean
+```
 
 Get a particular bit.
 
