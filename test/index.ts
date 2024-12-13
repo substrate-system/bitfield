@@ -1,10 +1,10 @@
 import { test } from '@substrate-system/tapzero'
-import BitField from "../src/index.js"
+import BitField from '../src/index.js'
 
-const data = "011011100110111".split("").map(Number).map(Boolean);
+const data = '011011100110111'.split('').map(Number).map(Boolean)
 
 test('Constructor', t => {
-    const field = new BitField(data.length);
+    const field = new BitField(data.length)
     for (let index = 0; index < data.length; index++) {
         t.ok(!field.get(index), 'should be empty when initialized')
     }
@@ -46,10 +46,10 @@ test('bitfield size', t => {
 })
 
 test('`set` should reproduce written data', t => {
-    const field = new BitField(data.length);
+    const field = new BitField(data.length)
 
     for (let index = 0; index < data.length; index++) {
-        field.set(index, data[index]);
+        field.set(index, data[index])
     }
 
     for (let index = 0; index < data.length; index++) {
@@ -66,10 +66,10 @@ test('out-of-bounds reads', t => {
 })
 
 test('should support disabling a field', t => {
-    const field = new BitField(0, { grow: 100 });
-    field.set(3, true);
+    const field = new BitField(0, { grow: 100 })
+    field.set(3, true)
     t.equal(field.get(3), true)
-    field.set(3, false);
+    field.set(3, false)
 
     // Check the first 10 indices, to ensure we only mutated a single field
     for (let index = 0; index < 10; index++) {
@@ -78,10 +78,10 @@ test('should support disabling a field', t => {
 
     // Set the first 10 fields, then disable one
     for (let index = 0; index < 10; index++) {
-        field.set(index);
+        field.set(index)
     }
 
-    field.set(5, false);
+    field.set(5, false)
     for (let index = 0; index < 10; index++) {
         if (index === 5) {
             t.equal(field.get(index), false)
@@ -92,24 +92,24 @@ test('should support disabling a field', t => {
 })
 
 test('Should ignore disables out of bounds', t => {
-    const field = new BitField(0, { grow: 100 });
-    field.set(3, false);
+    const field = new BitField(0, { grow: 100 })
+    field.set(3, false)
     t.equal(field.buffer.length, 0)
 })
 
 test('should not grow by default', t => {
-    const field = new BitField(data.length);
+    const field = new BitField(data.length)
 
     for (let index = 25; index < 125; index++) {
-        index += 8 + Math.floor(32 * Math.random());
+        index += 8 + Math.floor(32 * Math.random())
 
-        const oldLength = field.buffer.length;
+        const oldLength = field.buffer.length
         t.equal(field.get(index), false)
 
         // Should not have grown for get()
         t.equal(field.buffer.length, oldLength, 'should not grow on `get()`')
 
-        field.set(index, true);
+        field.set(index, true)
 
         // Should not have grown for set()
         t.equal(field.buffer.length, oldLength, 'should not grow on `set()`')
@@ -220,7 +220,7 @@ test('should leep through some of the values', t => {
 
 test('`isEmpty', t => {
     //  Assuming this creates a BitField with 10 bits, all unset
-    const field = new BitField(10);
+    const field = new BitField(10)
     t.equal(field.isEmpty(), true, 'a new field should be empty')
 
     field.set(5)  // set the 6th index

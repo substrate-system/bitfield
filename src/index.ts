@@ -4,8 +4,8 @@
  * @param numberOfBits The number of bits to convert.
  * @returns The number of bytes that are needed to store the given number of bits.
  */
-function bitsToBytes(numberOfBits: number): number {
-    return (numberOfBits >> 3) + Number(numberOfBits % 8 !== 0);
+function bitsToBytes (numberOfBits: number): number {
+    return (numberOfBits >> 3) + Number(numberOfBits % 8 !== 0)
 }
 
 interface BitFieldOptions {
@@ -26,14 +26,14 @@ export default class BitField {
      * Grow the bitfield up to this number of entries.
      * @default 0.
      */
-    private readonly grow: number;
+    private readonly grow: number
 
     /** The internal storage of the bitfield. */
-    public buffer: Uint8Array;
+    public buffer: Uint8Array
 
     /** The number of bits in the bitfield. */
-    get length(): number {
-        return this.buffer.length << 3;
+    get length (): number {
+        return this.buffer.length << 3
     }
 
     /**
@@ -42,15 +42,15 @@ export default class BitField {
      * @param data Either a number representing the maximum number of supported bits, or a Uint8Array.
      * @param opts Options for the bitfield.
      */
-    constructor(data: number | Uint8Array = 0, options?: BitFieldOptions) {
-        const grow = options?.grow;
+    constructor (data: number | Uint8Array = 0, options?: BitFieldOptions) {
+        const grow = options?.grow
         this.grow = grow
             ? Number.isFinite(grow)
                 ? bitsToBytes(grow)
                 : grow
-            : 0;
+            : 0
         this.buffer =
-            typeof data === "number" ? new Uint8Array(bitsToBytes(data)) : data;
+            typeof data === 'number' ? new Uint8Array(bitsToBytes(data)) : data
     }
 
     /**
@@ -59,12 +59,12 @@ export default class BitField {
      * @param bitIndex Bit index to retrieve.
      * @returns A boolean indicating whether the `i`th bit is set.
      */
-    get(bitIndex: number): boolean {
-        const byteIndex = bitIndex >> 3;
+    get (bitIndex: number): boolean {
+        const byteIndex = bitIndex >> 3
         return (
             byteIndex < this.buffer.length &&
             !!(this.buffer[byteIndex] & (0b1000_0000 >> bitIndex % 8))
-        );
+        )
     }
 
     /**
@@ -75,24 +75,24 @@ export default class BitField {
      * @param bitIndex Bit index to set.
      * @param value Value to set the bit to. Defaults to `true`.
      */
-    set(bitIndex: number, value = true): void {
-        const byteIndex = bitIndex >> 3;
+    set (bitIndex: number, value = true): void {
+        const byteIndex = bitIndex >> 3
 
         if (value) {
             if (byteIndex >= this.buffer.length) {
                 const newLength = Math.max(
                     byteIndex + 1,
                     Math.min(2 * this.buffer.length, this.grow),
-                );
+                )
                 if (newLength <= this.grow) {
-                    const newBuffer = new Uint8Array(newLength);
-                    newBuffer.set(this.buffer);
-                    this.buffer = newBuffer;
+                    const newBuffer = new Uint8Array(newLength)
+                    newBuffer.set(this.buffer)
+                    this.buffer = newBuffer
                 }
             }
-            this.buffer[byteIndex] |= 0b1000_0000 >> bitIndex % 8;
+            this.buffer[byteIndex] |= 0b1000_0000 >> bitIndex % 8
         } else if (byteIndex < this.buffer.length) {
-            this.buffer[byteIndex] &= ~(0b1000_0000 >> bitIndex % 8);
+            this.buffer[byteIndex] &= ~(0b1000_0000 >> bitIndex % 8)
         }
     }
 
@@ -102,37 +102,37 @@ export default class BitField {
      * @param array An array of booleans to set.
      * @param offset The bit offset at which the values are to be written.
      */
-    setAll(array: ArrayLike<boolean>, offset = 0): void {
+    setAll (array: ArrayLike<boolean>, offset = 0): void {
         const targetLength = Math.min(
             bitsToBytes(offset + array.length),
             this.grow,
-        );
+        )
 
         if (this.buffer.length < targetLength) {
-            const newBuffer = new Uint8Array(targetLength);
-            newBuffer.set(this.buffer);
-            this.buffer = newBuffer;
+            const newBuffer = new Uint8Array(targetLength)
+            newBuffer.set(this.buffer)
+            this.buffer = newBuffer
         }
 
-        let byteIndex = offset >> 3;
-        let bitMask = 0b1000_0000 >> offset % 8;
+        let byteIndex = offset >> 3
+        let bitMask = 0b1000_0000 >> offset % 8
         for (let index = 0; index < array.length; index++) {
             if (array[index]) {
-                this.buffer[byteIndex] |= bitMask;
+                this.buffer[byteIndex] |= bitMask
             } else {
-                this.buffer[byteIndex] &= ~bitMask;
+                this.buffer[byteIndex] &= ~bitMask
             }
 
             if (bitMask === 1) {
-                byteIndex += 1;
+                byteIndex += 1
 
                 if (byteIndex >= this.buffer.length) {
-                    break;
+                    break
                 }
 
-                bitMask = 0b1000_0000;
+                bitMask = 0b1000_0000
             } else {
-                bitMask >>= 1;
+                bitMask >>= 1
             }
         }
     }
@@ -144,22 +144,22 @@ export default class BitField {
      * @param start Index of the first bit to look at.
      * @param end Index of the first bit that should no longer be considered.
      */
-    forEach(
+    forEach (
         callbackfn: (bit: boolean, index: number) => void,
         start = 0,
         end: number = this.buffer.length * 8,
     ): void {
-        let byteIndex = start >> 3;
-        let bitMask = 0b1000_0000 >> start % 8;
+        let byteIndex = start >> 3
+        let bitMask = 0b1000_0000 >> start % 8
 
         for (let bitIndex = start; bitIndex < end; bitIndex++) {
-            callbackfn(!!(this.buffer[byteIndex] & bitMask), bitIndex);
+            callbackfn(!!(this.buffer[byteIndex] & bitMask), bitIndex)
 
             if (bitMask === 1) {
-                byteIndex += 1;
-                bitMask = 0b1000_0000;
+                byteIndex += 1
+                bitMask = 0b1000_0000
             } else {
-                bitMask >>= 1;
+                bitMask >>= 1
             }
         }
     }
@@ -169,12 +169,12 @@ export default class BitField {
      *
      * @returns A boolean indicating whether all bits are unset.
      */
-    isEmpty(): boolean {
+    isEmpty (): boolean {
         for (let i = 0; i < this.buffer.length; i++) {
             if (this.buffer[i] !== 0) {
-                return false;
+                return false
             }
         }
-        return true;
+        return true
     }
 }
